@@ -1,19 +1,21 @@
 class Solution {
 public:
+    int firstUniqChar(string s) {
+        using IT = list<int>::iterator;
 
-    unordered_map<int,int> m ;
-
-    int count( int x ){
-        if( m[x] > 1 ) return m[x] ;
-        if( !m[x] ) return  0 ;
-        m[x] = 1 + count(x+1) ;
-        return m[x] ;
-    }
-
-    int longestConsecutive(vector<int>& nums) {
-        int ans =  0 ;
-        for( auto x : nums ) m[x] = 1;
-        for( auto x : nums ) ans = max( ans , count(x) );
-        return ans ;
+    	list<int> candidates;
+    	unordered_map<char, IT> lookup;
+    	for (int i = 0; i < s.length(); ++i) {
+    		const auto c = s[i];
+    		if (lookup.count(c)) {
+    			if (lookup[c] != candidates.end()) {
+    				candidates.erase(lookup[c]);
+    			}
+    			lookup[c] = candidates.end();
+    		} else {
+    			lookup[c] = candidates.emplace(candidates.end(), i);
+    		}
+    	}
+    	return candidates.empty() ? -1 : candidates.front();
     }
 };
