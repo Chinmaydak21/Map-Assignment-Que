@@ -7,9 +7,12 @@ vector<int> twoSum(vector<int> &nums, int target)
 	for (int i = 0; i < nums.size(); i++) {
 		int n = target - nums[i];
 		if (hash.find(n) != hash.end()) {
-			finalresult.push_back(hash[n] + 1);
-			finalresult.push_back(i + 1);			
+			finalresult.push_back(hash[n]);
+			finalresult.push_back(i);			
 			return finalresult;
 		}
+                hash[nums[i]] = i;
+        }
+        return finalresult;
 }
-}
+};
